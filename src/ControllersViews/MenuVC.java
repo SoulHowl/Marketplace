@@ -24,8 +24,8 @@ public class MenuVC extends AbstractVC {
             ArrayList<Item> items = new ArrayList<Item>();
 
             System.out.print("\nCommand list:\n1 - log out\n2 - check profile/login" +
-                    "\n" + "4 - visit order history\n5 - visit cart" +
-                    (me.isAdmin() ? "\n999 - admin console " : ""));
+                    "\n" + "6- balance\n4 - visit order history\n5 - visit cart" +
+                    (me.isAdmin() ? "\n999 - admin console " : "") + "\n9 - back");
             var escape_from_main = false;
             int num = in.nextInt();
             switch (num) {
@@ -36,7 +36,7 @@ public class MenuVC extends AbstractVC {
                     System.out.println("Entered user's profile");
                     while (true) {
                         if (me.isAuthorized()) {
-                            System.out.print(" Your name: " + me.getNick() + "\n your email: " + me.getEmail() +
+                            System.out.print(" Your name: " + me.getNick() + "\n your email: " + me.getEmail() + "\n id " + me.getId() +
                                     "\nCommand list:\n 0 - back\n");
                             var escape9 = true;
                             int num9 = in.nextInt();
@@ -58,6 +58,11 @@ public class MenuVC extends AbstractVC {
                     break;
                 case 4:
                     System.out.println("Entered order history");
+                    ArrayList<Order> orders = cartFuncs.getHistory(me);
+
+                    for(Order order: orders){
+                        order.print();
+                    }
                     while (true) {
                         System.out.print("\nCommand list:\n 0 - back\n1 - check current order");
                         var escape_from_order_history = false;
@@ -67,11 +72,6 @@ public class MenuVC extends AbstractVC {
                                 escape_from_order_history = true;
                                 break;
                             case 1:
-                                ArrayList<Order> orders = cartFuncs.getHistory(me);
-
-                                for(Order order: orders){
-                                    order.print();
-                                }
                                 System.out.print("\nSelect order by its number\n");
                                 long num_ = in.nextLong();
 
@@ -84,8 +84,22 @@ public class MenuVC extends AbstractVC {
                         }
                         if(escape_from_order_history)break;
                     }
+                    break;
                 case 5:
                     return "cart";
+                case 6:
+                    System.out.println("Balance" + me.getBalance());
+                    System.out.println("put some money");
+                    var num_ = in.nextDouble();
+                    var newBlance = cartFuncs.updateBalance(me, num_);
+                    if (newBlance != -1){
+                        me.setBalance(newBlance);
+                        System.out.println("Success");
+                    }
+                    else{
+                        System.out.println("Error");
+                    }
+
                 case 999:
                     System.out.println("Entered admin console");
 //                    while (true){
@@ -142,12 +156,15 @@ public class MenuVC extends AbstractVC {
 //                        if(escape_from_admin_console) break;
 //                    }
                     break;
+                case 9:
+                    escape_from_main = true;
+                    break;
                 default:
                     System.out.print("Wrong input");
                     escape_from_main = true;
             }
             if (escape_from_main) break;
         }
-        return "none";
+        return "main";
     }
 }

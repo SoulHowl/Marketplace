@@ -27,7 +27,7 @@ public class OrderedItem {
     }
 
     public void print(){
-        System.out.printf("\nnumber: %2d\n%s \n%s \n%s \n%s \n%2d \n%2f\n",
+        System.out.printf("id:%2d\n%s\n%s \n%s \n%s\n%2d \n%2f\n",
                 id, name, value, status, shop, quantity, price);
     }
 }

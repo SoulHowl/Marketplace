@@ -71,6 +71,8 @@ public class ItemFuncs {
                 data.shop = shop;
                 data.title = results.getString("title");
                 data.quantity = results.getInt("quantity");
+                data.inCart = results.getBoolean("incart");
+                data.isClient = results.getBoolean("isclient");
             }
             results.close();
             cs.close();
@@ -83,17 +85,14 @@ public class ItemFuncs {
         return null;
     }
 
-    public boolean addItemToCart(User me, Shop shop, int num){
-        var res = false;
+    public boolean addItemToCart(User me, Item it, int num){
+        var res = true;
         try{
-            CallableStatement cs = conn.prepareCall("{call addItemToCart(?,?,?,?)}");
-            cs.setInt(1, me.getId());
-            cs.setLong(2, shop.getId());
-            cs.setInt(3, num);
-            cs.registerOutParameter(4, Types.BOOLEAN);
+            CallableStatement cs = conn.prepareCall("select * from addItemToCart(?,?,?)");
+            cs.setLong(1, it.getId());
+            cs.setInt(2, num);
+            cs.setLong(3, me.getId());
             cs.execute();
-
-            res = cs.getBoolean(4);
         }
         catch (SQLException e){
             e.printStackTrace();
@@ -163,14 +162,14 @@ public class ItemFuncs {
     };
 
     public boolean updateCartItem(long id, long quantity){
-        var res = false;
+        var res = true;
         try {
-            CallableStatement cs = conn.prepareCall("{call updateCartItem(?,?,?)}");
+            CallableStatement cs = conn.prepareCall("{call updateCartItem(?,?)}");
             cs.setLong(1, id);
             cs.setLong(2, quantity);
-            cs.registerOutParameter(3, Types.BOOLEAN);
+
             cs.execute();
-            res = cs.getBoolean(3);
+
         }
         catch (SQLException e){
             e.printStackTrace();
@@ -179,13 +178,12 @@ public class ItemFuncs {
     }
 
     public boolean  deleteCarItem(long id){
-        var res = false;
+        var res = true;
         try {
             CallableStatement cs = conn.prepareCall("{call deleteItemFromCart(?)}");
             cs.setLong(1, id);
-            cs.registerOutParameter(2, Types.BOOLEAN);
             cs.execute();
-            res = cs.getBoolean(2);
+
         }
         catch (SQLException e){
             e.printStackTrace();

@@ -96,7 +96,7 @@ public class CartFuncs {
                 double price = results.getDouble("price");
                 long quantity = results.getLong("quantity");
                 String status = results.getString("item_status");
-                String value = results.getString("date_purch");
+                String value = results.getString("val");
 
                 String shopName = results.getString("shop_name");
                 orderedItems.add(new OrderedItem(id, name, price, quantity, status, shopName, value));
@@ -112,5 +112,22 @@ public class CartFuncs {
             e.printStackTrace();
         }
         return orderedItems;
+    }
+
+    public double updateBalance(User me, double val){
+        double sum = -1;
+        try{
+            CallableStatement cs = conn.prepareCall("{call updateBalance(?,?,?)}");
+            cs.setInt(1, me.getId());
+            cs.setDouble(2, val);
+            cs.registerOutParameter(3,Types.FLOAT);
+
+            cs.execute();
+            sum = cs.getDouble(3);
+        }
+        catch (SQLException e){
+            e.printStackTrace();
+        }
+        return sum;
     }
 }

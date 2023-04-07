@@ -23,13 +23,14 @@ public class CartVC extends AbstractVC {
         while (true) {
             Cart cart = cartFuncs.showCart(me);
             var count = 0;
+            System.out.println("Cart sum: " + cart.sum);
             for (OrderedItem odIt: cart.cartItems){
                 System.out.println("Number: " + count);
                 count++;
                 odIt.print();
             }
-            System.out.print("\nCommand list:\n 0 - change product\n1 - make an order\n" +
-                    "2 - delete item\n3 - back\n");
+            System.out.print("\nCommand list:" + (cart.sum > 0?"\n 0 - change product\n1 - make an order\n" +
+                    "2 - delete item":"") + "\n3 - back\n");
             var escape_from_cart = false;
             int num = in.nextInt();
             switch (num) {
@@ -78,7 +79,7 @@ public class CartVC extends AbstractVC {
 
             if(escape_from_cart)break;
         }
-        return "cart";
+        return "main";
     }
 
 }

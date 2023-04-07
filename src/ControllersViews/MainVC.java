@@ -68,7 +68,7 @@ public class MainVC extends AbstractVC {
                         }
                     page = 1;
 
-                    System.out.print("\nCommand list:\n 1 - view game to order\n2 - back");
+                    System.out.print("\nCommand list:" + (!items.isEmpty()?("\n 1 - view game"):"no found") +"\n2 - back");
                     num = in.nextInt();
                     switch (num) {
                         case 1:
@@ -76,32 +76,34 @@ public class MainVC extends AbstractVC {
                             var iNum= in.nextInt();
                             for (Item it:items)
                             {
-                                if (it.getId() == num){
+                                if (it.getId() == iNum){
                                     FullItemData data = itemFuncs.viewItem(me, it);
                                     data.shop.print();
+                                    if(data.isClient) {
                                     System.out.print("\nCommand list:\n" +
-                                                    (data.inCart?"1:view cart":"1 - add game to cart") +
+                                                    ((data.inCart)?"1:view cart":"1 - add game to cart") +
                                                     "\n2 - set rating to shop\n3 - back\n");
                                     num = in.nextInt();
                                     switch (num) {
                                         case 1:
-                                            if(!data.inCart){
+                                            if (!data.inCart) {
+
                                                 System.out.println("number of item");
                                                 num = in.nextInt();
-                                                if(it.getQuantity() <= num){
+                                                if (it.getQuantity() >= num) {
                                                     // insert into cart
-                                                  if(itemFuncs.addItemToCart(me, data.shop, num))
-                                                    {
+                                                    if (itemFuncs.addItemToCart(me, it, num)) {
                                                         System.out.println("added to cart");
                                                     }
-                                                }
-                                                else{
+                                                } else {
                                                     System.out.println("order limit is exceeded");
                                                 }
-                                            }
-                                            else {
+
+                                            } else {
                                                 return "cart";
                                             }
+
+
                                             break;
                                         case 2:
 
@@ -124,6 +126,7 @@ public class MainVC extends AbstractVC {
                                         }
 
                                     }
+                                }
                                 break;
 
                         case 2:

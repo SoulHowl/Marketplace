@@ -88,13 +88,14 @@ public class ShopVC extends AbstractVC {
                     }
                     break;
                 case 1:
+
                     System.out.print("\ninput num of item to update");
                     num = in.nextInt();
                     for (Item it : myItems) {
                         if (it.getId() == num) {
                             in.nextLine();
                             num = in.nextInt();
-
+                            System.out.print("\ninput 0 - input new title or 1 - to continue");
                             if (num == 0) {
                                 in.nextLine();
                                 title = in.nextLine();

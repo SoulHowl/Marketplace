@@ -26,7 +26,9 @@ public class AuthFuncs {
                 var _role = results.getString("role_name");
                 var _name = results.getString("nickname");
                 var _mail = results.getString("email");
+                var balance = results.getDouble("balance_");
                 me.setUser(id, _role, _mail, _name);
+                me.setBalance(balance);
             }
             results.close();
             func.close();

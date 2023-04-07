@@ -48,16 +48,14 @@ public class Main {
                         break;
                     case "log_out":
                         me.logoutUser();
-                        pageName="main";
+                        pageName="auth";
+                        break;
                     default:
                         programEnd = true;
                         break;
                 }
                 if(programEnd) break;
             }
-
-
-
 
 
         } catch (SQLException e) {
