@@ -1,0 +1,26 @@
+.hat{
+    display: flex;
+    justify-content: space-between;
+    max-height: 100px;
+    z-index: 5;
+}
+
+
+.profile-section{
+    vertical-align: auto;
+    max-height: 80px;
+    
+    position: relative;
+    margin-right: 1%;
+    border-radius: 8px;
+
+}
+
+
+.profile-box-info{
+    padding-left: 10px;
+    display: flex;
+    flex-direction: column;
+}
+
+

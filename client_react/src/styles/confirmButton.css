@@ -1,0 +1,11 @@
+.confirm-button{
+    background-color: #9d0000;
+    width: 100px;
+    height: 40px;
+    margin: 0 auto;
+}
+
+.register-button:hover{
+    background-color: #730000;
+    border-color: #730000;
+}

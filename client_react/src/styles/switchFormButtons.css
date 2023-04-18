@@ -1,0 +1,18 @@
+.sign-button, .register-button {
+   
+    width: 100%;
+    height: 60px;
+}
+
+.sign-button {
+    border-top-left-radius: 10px;
+}
+
+.register-button {
+    border-top-right-radius: 10px;
+}
+
+.sign-button:hover, .confirm-button:hover{
+    background-color: #730000;
+    border-color: #730000;
+}
