@@ -118,6 +118,44 @@ public class ShopFuncs {
         return platforms;
     }
 
+    public ArrayList<OrderedItem> getShopOrders(long shopID, boolean completed){
+        ArrayList<OrderedItem> odIts = new ArrayList<OrderedItem>();
+        try{
+            CallableStatement func2 = conn.prepareCall("select * from showOrders(?,?)");
+            func2.setLong(1, shopID);
+            func2.setBoolean(2, completed);
+            ResultSet results2 = func2.executeQuery();
+            while (results2.next()) {
+                long id = results2.getLong("odereditemid");
+                String name = results2.getString("title");
+                double price = results2.getDouble("price");
+                long quantity = results2.getLong("quantity");
+                String shopName = results2.getString("shop_name");
+                odIts.add(new OrderedItem(id, name, price, quantity, completed ? "completed":"active", shopName, ""));
+            }
+            results2.close();
+            func2.close();
+        }
+        catch (SQLException e)
+        {
+            e.printStackTrace();
+        }
+        return odIts;
+    }
 
+    public void completeOrder(long orderedItemID, String val){
+        try{
+            CallableStatement cs = conn.prepareCall("{call completeOrder(?,?)}");
+            cs.setLong(1, orderedItemID);
+            cs.setString(2, val);
 
+            cs.execute();
+
+        }
+        catch (SQLException e)
+        {
+            e.printStackTrace();
+        }
+
+    }
 }

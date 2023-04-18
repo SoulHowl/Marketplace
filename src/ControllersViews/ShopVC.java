@@ -2,10 +2,7 @@ package ControllersViews;
 
 import DBlogic.ItemFuncs;
 import DBlogic.ShopFuncs;
-import Models.Category;
-import Models.Item;
-import Models.Platform;
-import Models.Shop;
+import Models.*;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -191,16 +188,30 @@ public class ShopVC extends AbstractVC {
                 case 4:
                     System.out.print("\nCommand list:\n 0 - check completed orders" +
                             "\n1 - check not completed orders \n");
-
-
-//                                    switch ()
-//                                    {
-//                                        case 0:
-//                                            break;
-//                                        case 1:
-//                                            System.out.print("\nSelect order to complete\n");
-//                                            break;
-//                                    }
+                    num = in.nextInt();
+                    switch (num)
+                    {
+                        case 0:
+                            ArrayList<OrderedItem> codItems = shopFuncs.getShopOrders(myShop.getId(), true);
+                            for(OrderedItem it: codItems){
+                                it.print();
+                            }
+                            break;
+                        case 1:
+                            ArrayList<OrderedItem> odItems = shopFuncs.getShopOrders(myShop.getId(), false);
+                            for(OrderedItem it: odItems){
+                                it.print();
+                            }
+                            if(odItems.size() > 0) {
+                                System.out.print("\nSelect order to complete\n");
+                                var iNum = in.nextLong();
+                                in.nextLine();
+                                System.out.print("\nInput value\n");
+                                var val = in.nextLine();
+                                shopFuncs.completeOrder(iNum, val);
+                            }
+                            break;
+                    }
                     break;
             }
 
